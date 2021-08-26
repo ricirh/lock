@@ -14,6 +14,7 @@ public class RedisLock implements Runnable {
     private static int SLEEPTIME = 100;
     private static boolean PROTECTED = true;
     private static String CURKEY = "";
+    private static int count = 0;
     @Autowired
     RedisTemplate<String, Long> redisTemplate;
 
@@ -32,6 +33,9 @@ public class RedisLock implements Runnable {
             if(flag){
                 CURKEY = lockValue;
                 //System.out.println(Thread.currentThread().getName() + "获得锁");
+                if(++ count  > 1){
+                    System.out.println("锁被第" + count + "次取用");
+                }
                 return true;
             }
             Long lockT = redisTemplate.opsForValue().get(lockValue);
@@ -41,6 +45,7 @@ public class RedisLock implements Runnable {
                     if(lockT.equals(redisTemplate.opsForValue().getAndSet(lockValue,System.currentTimeMillis()))){            //判断锁是否已经被取用
                         redisTemplate.opsForValue().set(lockValue,System.currentTimeMillis());
                         //System.out.println(Thread.currentThread().getName() + "获得锁");
+                        count--;
                         flag = true;
                         break;
                     }
@@ -51,12 +56,16 @@ public class RedisLock implements Runnable {
             }
             TimeUnit.MILLISECONDS.sleep(SLEEPTIME);
         }
+        if(++ count  > 1){
+            System.out.println("锁被地" + count + "次取用");
+        }
         CURKEY = lockValue;
         return true;
     }
 
     public boolean unLock(String lockValue){
         if(null != redisTemplate.opsForValue().get(lockValue)) {
+            count--;
             redisTemplate.delete(lockValue);
             CURKEY = "";
             //System.out.println(Thread.currentThread().getName() + "释放锁");
