@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    zookeeper:
+      connect-string: 192.168.81.128:2181
+
+
+
+
+
+
