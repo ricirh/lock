@@ -1,10 +1,12 @@
 spring:
-  cloud:
-    zookeeper:
-      connect-string: 192.168.81.128:2181
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/data?serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+zookeeper:
+  address: 127.0.0.1:2181
+  timeout: 4000
 
-
-
-
-
-
+server:
+  port: 8889

@@ -4,6 +4,7 @@ package com;
 import com.config.BeanContext;
 import com.lock.RedisLock;
 import lombok.SneakyThrows;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
+@MapperScan("com.dao")
 public class RedisTest extends Thread{
 
     private BeanContext beanContext;
@@ -24,11 +26,14 @@ public class RedisTest extends Thread{
 
     public static void main(String[] args){
         SpringApplication.run(RedisTest.class);
-        for (int i=0;i<1000;i++){
-            RedisTest t = new RedisTest();
-            t.start();
-        }
-        System.out.println("结束");
+
+
+
+//        for (int i=0;i<1000;i++){
+//            RedisTest t = new RedisTest();
+//            t.start();
+//        }
+//        System.out.println("结束");
     }
 
     @SneakyThrows

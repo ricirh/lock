@@ -5,15 +5,21 @@ import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 @Component
 public class ZkLock {
-    private static final String CONNECTION="127.0.0.1:2181";
-    protected ZkClient zkClient = new ZkClient(CONNECTION);
+    //private static final String CONNECTION="127.0.0.1:2181";
+    //protected ZkClient zkClient = new ZkClient(CONNECTION);
+    @Autowired
+    ZkClient zkClient;
+
     private static final String PARENT = "/lock";
     private static final String PREFIX = "/lock/";
     private String curLock = "";

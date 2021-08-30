@@ -9,7 +9,7 @@ public class Appconfig {
     @Bean
     TomcatServletWebServerFactory tomcat(){
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-        tomcat.setPort(5000);
+        tomcat.setPort(8890);
         return  tomcat;
     }
 
